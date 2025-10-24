@@ -1,0 +1,140 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    /* background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6; */
+    font-size: 1rem;
+}
+
+.container{
+    width: 100vw;
+    height: 100vh;
+    background: url(https://images.pexels.com/photos/72594/japan-train-railroad-railway-72594.jpeg?_gl=1*1fhihoh*_ga*MTE1NDE2NDU4Ni4xNzYxMzExNTI0*_ga_8JE65Q40S6*czE3NjEzMTE1MjQkbzEkZzAkdDE3NjEzMTE1MjQkajYwJGwwJGgw);
+    background-size:cover;
+    background-position:center;
+    position: relative;
+}
+
+.shadow{
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.8;
+    z-index: 1;
+}
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 2rem;
+    background-color: rgb(36, 36, 40);
+    color: white;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+
+}
+nav .links{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.9em;
+}
+nav .links a{
+    color: white;
+    text-decoration: none;
+}
+
+.links > *:hover{
+    font-size: 1.1em;
+    font-weight: bold;
+
+}
+
+.links #login{
+    background-color:cornflowerblue ;
+    /* padding: 0.6rem; */
+    width: 4vw;
+    text-align: center;
+    border-radius: 15px;
+    padding: 0.3rem 0.2rem;
+
+}
+
+.links #login:hover{
+    background-color: royalblue;
+    font-weight: bold;
+    width: 5vw;
+    transition: 0.5s all ease-in-out;
+ }
+
+ .links #signUp{
+    border: 1px solid cornflowerblue ;
+    /* padding: 0.6rem; */
+    width: 4vw;
+    text-align: center;
+    border-radius: 15px;
+    padding: 0.3rem 0.2rem;
+ }
+
+.links #signUp:hover{
+    background-color: royalblue;
+    font-weight: bold;
+    color: white;
+    width: 5vw;
+    transition: 0.5s all ease-in-out;
+ }
+
+.logo:hover{
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.showcase{
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    color: white;
+
+}
+
+.showcase > *{
+    padding-top: 0.7rem;
+}
+.showcase h1{
+    font-size: 3rem;
+}
+.showcase p{
+    font-size: 1.2rem;
+    text-align: center;
+    max-width: 600px;
+}
+ .showcase .btn{
+    color: white;
+    text-decoration: none;
+    background-color: cornflowerblue;
+    padding: 0.7rem  0.5rem;
+    border-radius: 7px;
+    margin-top: 1rem;
+    width: 8vw;
+    text-align: center;
+ }
+
+.showcase .btn:hover{
+    background-color: royalblue;
+    font-weight: bold;
+    width:9vw;
+    transition: 0.5s all ease-in-out;
+ }
