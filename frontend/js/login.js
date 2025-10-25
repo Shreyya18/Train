@@ -21,7 +21,12 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             
             showMessage('Login successful! Redirecting...', 'success');
             setTimeout(() => {
+                //redirect based on user type
+                 if (data.user.isAdmin) {
+                    window.location.href = 'admin.html';
+                } else {
                 window.location.href = 'search-trains.html';
+                }
             }, 1500);
         } else {
             showMessage(data.message, 'error');
