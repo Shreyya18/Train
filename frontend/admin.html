@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Train Booking</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+            background-color: #f4f4f4;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 2rem;
+            background-color: rgb(36, 36, 40);
+            color: white;
+            align-items: center;
+        }
+
+        nav .logo h4 {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            color: rgb(36, 36, 40);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: cornflowerblue;
+            color: white;
+            border-color: cornflowerblue;
+        }
+
+        .tab-btn:hover {
+            border-color: cornflowerblue;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .card h2 {
+            margin-bottom: 1.5rem;
+            color: rgb(36, 36, 40);
+            font-size: 1.5rem;
+        }
+
+        /* Form */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 7px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: cornflowerblue;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            padding: 0.8rem 2rem;
+            background-color: cornflowerblue;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: royalblue;
+            transform: scale(1.05);
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            margin-right: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .btn-edit:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: cornflowerblue;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: cornflowerblue;
+            font-size: 1.2rem;
+        }
+
+        /* Message */
+        .message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 7px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .data-table {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <h4>🔧 Admin Panel</h4>
+        </div>
+        <div class="links">
+            <span style="color: cornflowerblue; font-weight: bold;" id="adminName"></span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>Admin Dashboard</h1>
+            <p style="color: #666;">Manage trains and view all bookings</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3 id="totalTrains">0</h3>
+                <p>Total Trains</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalBookings">0</h3>
+                <p>Total Bookings</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="activeBookings">0</h3>
+                <p>Active Bookings</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalRevenue">₹0</h3>
+                <p>Total Revenue</p>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('trains')">🚂 Manage Trains</button>
+            <button class="tab-btn" onclick="switchTab('bookings')">📋 All Bookings</button>
+        </div>
+
+        <!-- Manage Trains Tab -->
+        <div id="trainsTab" class="tab-content active">
+            <div class="card">
+                <h2>Add New Train</h2>
+                <div id="trainMessage" class="message"></div>
+                <form id="addTrainForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Train Number</label>
+                            <input type="text" id="trainNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Train Name</label>
+                            <input type="text" id="trainName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Source Station</label>
+                            <input type="text" id="sourceStation" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Destination Station</label>
+                            <input type="text" id="destinationStation" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Departure Time</label>
+                            <input type="time" id="departureTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Arrival Time</label>
+                            <input type="time" id="arrivalTime" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Total Seats</label>
+                            <input type="number" id="totalSeats" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Price per Seat (₹)</label>
+                            <input type="number" id="pricePerSeat" min="1" step="0.01" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary btn-success">Add Train</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>All Trains</h2>
+                <div id="trainsList">
+                    <div class="loading">Loading trains...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Bookings Tab -->
+        <div id="bookingsTab" class="tab-content">
+            <div class="card">
+                <h2>All Bookings</h2>
+                <div id="bookingsList">
+                    <div class="loading">Loading bookings...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
