@@ -3,10 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const db = require('../config/db');
 
-// router.get('/', (req, res) => {
-//     res.send('Auth API is running');
-// }
-// );
+router.get('/', (req, res) => {
+    res.send('Auth API is running');
+}
+);
 
 // REGISTER - Sign up new user
 router.post('/register', async (req, res) => {
