@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Trains - Train Booking</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+            background-color: #f4f4f4;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 2rem;
+            background-color: rgb(36, 36, 40);
+            color: white;
+            align-items: center;
+        }
+
+        nav .logo h4 {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        nav .logo:hover h4 {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        nav .links a,
+        nav .links span {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        nav .links>*:hover {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 15px;
+    padding: 0.3rem 0.2rem;
+            cursor: pointer;
+            font-size: 0.9em;
+            width: 4vw;
+            /* transition: all 0.5s ease-in-out; */
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+            font-weight: bold;
+            width: 5vw;
+            transition: 0.5s all ease-in-out;
+        }
+
+         /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Search Card */
+        .search-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .search-card h2 {
+            margin-bottom: 1.5rem;
+            color: rgb(36, 36, 40);
+            font-size: 1.8rem;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 7px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: cornflowerblue;
+        }
+
+        .search-btn {
+            padding: 0.8rem 2rem;
+            background-color: cornflowerblue;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .search-btn:hover {
+            background-color: royalblue;
+            transform: scale(1.05);
+        }
+
+        /* Results Section */
+        .results-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-section h3 {
+            margin-bottom: 1.5rem;
+            color: rgb(36, 36, 40);
+            font-size: 1.5rem;
+        }
+
+        /* Train Card */
+        .train-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease-in-out;
+            background: white;
+        }
+
+        .train-card:hover {
+            box-shadow: 0 6px 15px rgba(100, 149, 237, 0.3);
+            transform: translateY(-3px);
+            border-color: cornflowerblue;
+        }
+
+        .train-info {
+            flex: 1;
+        }
+
+        .train-header {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 0.8rem;
+            align-items: center;
+        }
+
+        .train-number {
+            font-weight: bold;
+            color: cornflowerblue;
+            font-size: 1.3rem;
+        }
+
+        .train-name {
+            color: rgb(36, 36, 40);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .train-route {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #555;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .route-arrow {
+            color: cornflowerblue;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .train-timing {
+            display: flex;
+            gap: 2rem;
+            color: #777;
+            font-size: 0.95rem;
+        }
+
+        .train-details {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .seats-available {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-btn {
+            padding: 0.7rem 2rem;
+            background-color: cornflowerblue;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .book-btn:hover {
+            background-color: royalblue;
+            transform: scale(1.05);
+        }
+
+        /* Messages */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: cornflowerblue;
+            font-size: 1.3rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .train-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .train-details {
+                text-align: left;
+                align-items: flex-start;
+                margin-top: 1rem;
+                width: 100%;
+            }
+
+            .book-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <h4>Train Ticket Booking</h4>
+        </div>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="search-trains.html">Search Trains</a>
+            <span id="welcomeUser" style="color: cornflowerblue; font-weight: bold;"></span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Search Form -->
+        <div class="search-card">
+            <h2>🚂 Search Trains</h2>
+            <form class="search-form" id="searchForm">
+                <div class="form-group">
+                    <label>From</label>
+                    <input type="text" id="source" placeholder="Source Station" required>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <input type="text" id="destination" placeholder="Destination Station" required>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h3>Available Trains (<span id="trainCount">0</span>)</h3>
+            <div id="trainsList"></div>
+        </div>
+    </div>
+
+    <script src="js/search-trains.js"></script>
+</body>
+
+</html>
