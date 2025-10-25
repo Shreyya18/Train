@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const db = require('../config/db');
+require('dotenv').config();
 
 router.get('/', (req, res) => {
     res.send('Auth API is running');
@@ -54,6 +55,21 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        //check admin credentials
+         if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+            return res.json({
+                success: true,
+                message: 'Admin login successful',
+                user: {
+                    id: 0,
+                    username: 'Admin',
+                    email: process.env.ADMIN_EMAIL,
+                    phone: 'N/A',
+                    isAdmin: true
+                }
+            });
+        }
 
         // Find user
         const [users] = await db.query(
