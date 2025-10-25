@@ -2,6 +2,35 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 
+
+// GET all bookings (Admin only)
+router.get('/all', async (req, res) => {
+    try {
+        const [bookings] = await db.query(
+            `SELECT b.*, t.train_number, t.train_name, t.source_station, 
+            t.destination_station, u.username, u.email
+            FROM bookings b
+            JOIN trains t ON b.train_id = t.train_id
+            JOIN users u ON b.user_id = u.user_id
+            ORDER BY b.created_at DESC`
+        );
+
+        res.json({
+            success: true,
+            bookings: bookings,
+            count: bookings.length
+        });
+
+    } catch (error) {
+        console.error('Error fetching all bookings:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch bookings'
+        });
+    }
+});
+
+
 // CREATE new booking
 router.post('/', async (req, res) => {
     try {
