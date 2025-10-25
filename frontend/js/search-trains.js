@@ -1,11 +1,11 @@
+let allTrains = []; // Store trains globally
+
 // Check if user is logged in
 const user = JSON.parse(localStorage.getItem('user'));
 
 if (!user) {
-    // Redirect to login if not logged in
     window.location.href = 'login.html';
 } else {
-    // Display welcome message
     document.getElementById('welcomeUser').textContent = `Welcome, ${user.username}!`;
 }
 
@@ -29,7 +29,6 @@ async function searchTrains(source, destination, date) {
     const trainsList = document.getElementById('trainsList');
     const trainCount = document.getElementById('trainCount');
 
-    // Show loading
     trainsList.innerHTML = '<div class="loading">🔍 Searching trains...</div>';
     resultsSection.style.display = 'block';
 
@@ -45,6 +44,7 @@ async function searchTrains(source, destination, date) {
         const data = await response.json();
 
         if (data.success && data.trains.length > 0) {
+            allTrains = data.trains; // Store trains globally
             trainCount.textContent = data.count;
             displayTrains(data.trains);
         } else {
@@ -79,9 +79,9 @@ function displayTrains(trains) {
                     <span class="train-name">${train.train_name}</span>
                 </div>
                 <div class="train-route">
-                    <span>${train.source_station}</span>
+                    <span><strong>${train.source_station}</strong></span>
                     <span class="route-arrow">→</span>
-                    <span>${train.destination_station}</span>
+                    <span><strong>${train.destination_station}</strong></span>
                 </div>
                 <div class="train-timing">
                     <span>🕐 Departure: ${train.departure_time}</span>
@@ -93,7 +93,7 @@ function displayTrains(trains) {
                 <div class="seats-available">
                     ${train.available_seats} seats available
                 </div>
-                <button class="book-btn" onclick="bookTrain(${train.train_id}, '${train.train_name}')">
+                <button class="book-btn" onclick="bookTrain(${train.train_id})">
                     Book Now
                 </button>
             </div>
@@ -101,18 +101,17 @@ function displayTrains(trains) {
     `).join('');
 }
 
-// Book train function (placeholder for now)
-function bookTrain(trainId, trainName) {
-    // Store selected train in localStorage
-    const selectedTrain = {
-        id: trainId,
-        name: trainName
-    };
-    localStorage.setItem('selectedTrain', JSON.stringify(selectedTrain));
+// Book train function
+function bookTrain(trainId) {
+    // Find and store selected train
+    const train = allTrains.find(t => t.train_id === trainId);
     
-    // Redirect to booking page (we'll create this next)
-    alert(`Booking page coming soon for train: ${trainName}`);
-    // window.location.href = 'booking.html';
+    if (train) {
+        localStorage.setItem('selectedTrain', JSON.stringify(train));
+        window.location.href = `bookings.html?trainId=${trainId}`;
+    } else {
+        alert('Train not found. Please try again.');
+    }
 }
 
 // Logout function
