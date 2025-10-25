@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Ticket - Train Booking</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+            background-color: #f4f4f4;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 2rem;
+            background-color: rgb(36, 36, 40);
+            color: white;
+            align-items: center;
+        }
+
+        nav .logo h4 {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        nav .logo:hover h4 {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        nav .links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        nav .logo h4 a{
+            color: white;
+            text-decoration: none;
+         }
+
+        .back-btn {
+            background-color: cornflowerblue;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.5s ease-in-out;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background-color: royalblue;
+            transform: scale(1.1);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Train Info Card */
+        .train-info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .train-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .train-title {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .train-number {
+            font-size: 1.5rem;
+            color: cornflowerblue;
+            font-weight: bold;
+        }
+
+        .train-name {
+            font-size: 1.3rem;
+            color: rgb(36, 36, 40);
+            font-weight: 600;
+        }
+
+        .train-route {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .route-arrow {
+            color: cornflowerblue;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        /* Booking Form */
+        .booking-form-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .booking-form-card h2 {
+            margin-bottom: 1.5rem;
+            color: rgb(36, 36, 40);
+            font-size: 1.8rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            margin-bottom: 1rem;
+            color: cornflowerblue;
+            font-size: 1.3rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 7px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: cornflowerblue;
+        }
+
+        /* Seat Selection */
+        .seat-selector {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .seat-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid cornflowerblue;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .seat-btn:hover {
+            background: cornflowerblue;
+            color: white;
+        }
+
+        .seats-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: cornflowerblue;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        /* Price Summary */
+        .price-summary {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 7px;
+            margin-top: 1.5rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .price-row.total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            padding-top: 1rem;
+            border-top: 2px solid #ddd;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: cornflowerblue;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.5s ease-in-out;
+            margin-top: 1.5rem;
+        }
+
+        .submit-btn:hover {
+            background-color: royalblue;
+            transform: scale(1.02);
+        }
+
+        .submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Message */
+        .message {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 7px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .train-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+          <div class="logo">
+            <h4><a href="index.html" >Train Ticket Booking</a></h4>
+        </div>
+        <div class="links">
+            <a href="search-trains.html" class="back-btn">← Back to Search</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Train Info -->
+        <div class="train-info-card">
+            <div class="train-header">
+                <div class="train-title">
+                    <span class="train-number" id="trainNumber">--</span>
+                    <span class="train-name" id="trainName">--</span>
+                </div>
+            </div>
+            <div class="train-route">
+                <span><strong id="sourceStation">--</strong></span>
+                <span class="route-arrow">→</span>
+                <span><strong id="destinationStation">--</strong></span>
+            </div>
+        </div>
+
+        <!-- Booking Form -->
+        <div class="booking-form-card">
+            <h2>🎫 Book Your Ticket</h2>
+
+            <div id="message" class="message"></div>
+
+            <form id="bookingForm">
+                <!-- Journey Details -->
+                <div class="form-section">
+                    <h3>Journey Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Journey Date</label>
+                            <input type="date" id="journeyDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Seats</label>
+                            <div class="seat-selector">
+                                <button type="button" class="seat-btn" onclick="changeSeats(-1)">−</button>
+                                <span class="seats-count" id="seatsCount">1</span>
+                                <button type="button" class="seat-btn" onclick="changeSeats(1)">+</button>
+                                <span style="color: #666; font-size: 0.9rem; margin-left: 1rem;">
+                                    (Max: <span id="maxSeats">0</span>)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passenger Details -->
+                <div class="form-section">
+                    <h3>Passenger Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="passengerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="number" id="passengerAge" min="1" max="120" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select id="passengerGender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Summary -->
+                <div class="price-summary">
+                    <div class="price-row">
+                        <span>Price per seat:</span>
+                        <span>₹<span id="pricePerSeat">0</span></span>
+                    </div>
+                    <div class="price-row">
+                        <span>Number of seats:</span>
+                        <span id="numSeatsDisplay">1</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total Amount:</span>
+                        <span>₹<span id="totalPrice">0</span></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/bookings.js
+    "></script>
+</body>
+
+</html>

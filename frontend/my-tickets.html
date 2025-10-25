@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tickets - Train Booking</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+            background-color: #f4f4f4;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 2rem;
+            background-color: rgb(36, 36, 40);
+            color: white;
+            align-items: center;
+        }
+
+        nav .logo h4 {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        nav .logo:hover h4 {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        nav .logo h4 a{
+            color: white;
+            text-decoration: none;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        nav .links a,
+        nav .links span {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        nav .links > *:hover {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Header Section */
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h1 {
+            color: rgb(36, 36, 40);
+            font-size: 2rem;
+        }
+
+        .search-new-btn {
+            background-color: cornflowerblue;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.5s ease-in-out;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .search-new-btn:hover {
+            background-color: royalblue;
+            transform: scale(1.05);
+        }
+
+        /* Bookings Section */
+        .bookings-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .bookings-section h2 {
+            margin-bottom: 1.5rem;
+            color: rgb(36, 36, 40);
+            font-size: 1.5rem;
+        }
+
+        /* Ticket Card */
+        .ticket-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: white;
+            position: relative;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .ticket-card:hover {
+            box-shadow: 0 6px 15px rgba(100, 149, 237, 0.3);
+            transform: translateY(-3px);
+            border-color: cornflowerblue;
+        }
+
+        .ticket-card.cancelled {
+            opacity: 0.6;
+            border-color: #dc3545;
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .booking-id {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-badge.confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .train-info {
+            margin-bottom: 1rem;
+        }
+
+        .train-title {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .train-number {
+            font-size: 1.3rem;
+            color: cornflowerblue;
+            font-weight: bold;
+        }
+
+        .train-name {
+            font-size: 1.2rem;
+            color: rgb(36, 36, 40);
+            font-weight: 600;
+        }
+
+        .route-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .route-arrow {
+            color: cornflowerblue;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .journey-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .ticket-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .cancel-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cancel-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        .cancel-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: cornflowerblue;
+            font-size: 1.3rem;
+        }
+
+        /* Price */
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .journey-details {
+                grid-template-columns: 1fr;
+            }
+
+            .ticket-actions {
+                flex-direction: column;
+            }
+
+            .cancel-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+          <div class="logo">
+            <h4><a href="index.html" >Train Ticket Booking</a></h4>
+        </div>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="search-trains.html">Search Trains</a>
+            <span id="welcomeUser" style="color: cornflowerblue; font-weight: bold;"></span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🎫 My Tickets</h1>
+            <a href="search-trains.html" class="search-new-btn">+ Book New Ticket</a>
+        </div>
+
+        <!-- Bookings Section -->
+        <div class="bookings-section">
+            <h2>Your Bookings</h2>
+            <div id="bookingsList">
+                <div class="loading">🔍 Loading your tickets...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/my-tickets.js"></script>
+</body>
+</html>
