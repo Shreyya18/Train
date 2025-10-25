@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const authRoutes = require('./routes/auth');
+const trainsRoutes= require('./routes/trains')
 
 const app = express();
 const port= 3000;
@@ -26,7 +27,7 @@ testDB();
 
 // API Routes
 app.use('/api/auth', authRoutes); 
-
+app.use('/api/trains', trainsRoutes);
 
 app.get('/', (req,res) =>{
     res.send('Hello World!');
